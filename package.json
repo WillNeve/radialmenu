@@ -1,6 +1,7 @@
 {
   "scripts": {
     "sass:watch": "node-sass -w assets/stylesheets/style.scss src/style.css",
+    "sass:build": "node-sass assets/stylesheets/style.scss src/style.css",
     "test": "jest"
   },
   "devDependencies": {
