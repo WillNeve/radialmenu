@@ -29,7 +29,7 @@ class RadialMenu {
     this.menuLocked = true;
     setTimeout(() => {
       this.menuLocked = false;
-    }, this.menuTransitionTime);
+    }, this.menuTransitionTime / 2);
     for (let i = 0; i < this.buttonCount; i++) {
       const angleDeg = this.angleGap * (i)
       const angleRad = angleDeg * Math.PI/180
@@ -54,7 +54,7 @@ class RadialMenu {
     this.menuLocked = true;
     setTimeout(() => {
       this.menuLocked = false;
-    }, this.menuTransitionTime);
+    }, this.menuTransitionTime / 2);
     this.buttonsContainer.classList.remove('active')
     for (let i = (this.buttonCount - 1); i >= 0; i--) {
       setTimeout(() => {
