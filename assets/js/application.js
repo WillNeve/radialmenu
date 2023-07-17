@@ -12,6 +12,7 @@ class RadialMenu {
     this.buttonTransitionTime = (this.menuTransitionTime / this.buttonCount).toFixed(2);
     this.angleGap = 360 / this.buttonCount;
     this.menuLocked = false
+    this.menuOpen = false
 
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
@@ -23,7 +24,7 @@ class RadialMenu {
   openMenu() {
     this.menuToggle.classList.add('active')
     this.buttonsContainer.classList.add('active')
-    if (this.menuLocked) {
+    if (this.menuLocked || this.menuOpen) {
       return;
     }
     this.menuLocked = true;
@@ -44,6 +45,7 @@ class RadialMenu {
         this.buttons[i].classList.add('active');
       }, i * (this.buttonTransitionTime/2));
     }
+    this.menuOpen = true
   }
 
   closeMenu() {
@@ -62,6 +64,7 @@ class RadialMenu {
         this.buttons[i].classList.remove('active');
       }, ((i - this.buttonCount) * -1) * (this.buttonTransitionTime/2));
     }
+    this.menuOpen = false
   }
 
   addHoverToButton(button) {
