@@ -6,8 +6,8 @@ body {
 
 .radial-menu {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   border: 1px dashed red;
   pointer-events: all; }
   .radial-menu .toggle {
@@ -27,7 +27,7 @@ body {
     justify-content: center; }
     .radial-menu .toggle.active {
       transform: translate(-50%, -50%) scale(1.1);
-      box-shadow: 0px 0px 0px 3px rgba(216, 219, 226, 0.5); }
+      border: 2px solid #D8DBE2; }
   .radial-menu .button {
     position: absolute;
     top: 50%;
@@ -48,6 +48,8 @@ body {
     font-size: 1.1rem; }
     .radial-menu .button.active {
       opacity: 1; }
+    .radial-menu .button:hover {
+      cursor: pointer; }
   .radial-menu .button-container {
     position: absolute;
     top: 50%;

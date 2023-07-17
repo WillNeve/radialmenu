@@ -1,60 +1,92 @@
-const menu = document.querySelector('.radial-menu');
-const menuToggle = menu.querySelector('.toggle');
-const buttons = menu.querySelectorAll('.button');
-const buttonsContainer = menu.querySelector('.button-container');
-const menuTransitionTime = parseInt(menu.dataset.transitionDuration);
-buttonsContainer.style.transition = `transform ${menuTransitionTime / 2000}s linear`;
+class RadialMenu {
+  constructor(menu) {
+    this.menu = menu
+    this.menuToggle = this.menu.querySelector('.toggle');
+    this.buttons = this.menu.querySelectorAll('.button');
+    console.log(this.menuToggle);
+    this.buttonsContainer = this.menu.querySelector('.button-container');
+    this.menuTransitionTime = parseInt(this.menu.dataset.transitionDuration);
+    this.buttonsContainer.style.transition = `transform ${this.menuTransitionTime / 2000}s linear`;
+    this.buttonOffset = (this.menu.offsetWidth / 2) - 40;
+    this.buttonCount = this.buttons.length
+    this.buttonTransitionTime = (this.menuTransitionTime / this.buttonCount).toFixed(2);
+    this.angleGap = 360 / this.buttonCount;
+    this.menuLocked = false
 
-const buttonOffset = (menu.offsetWidth / 2) - 40;
-const buttonCount = buttons.length
-const buttonTransitionTime = (menuTransitionTime / buttonCount).toFixed(2);
-const angleGap = 360 / buttonCount;
+    this.openMenu = this.openMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
 
-let menuLocked = false;
-
-const openMenu = (_event) => {
-  menuToggle.classList.add('active')
-  buttonsContainer.classList.add('active')
-  if (menuLocked) {
-    return;
+    this.menuToggle.addEventListener('mouseover', this.openMenu);
+    this.menu.addEventListener('mouseleave', this.closeMenu)
   }
-  menuLocked = true;
-  setTimeout(() => {
-    menuLocked = false;
-    mousePos = { x: _event.clientX, y: _event.clientY };
 
-  }, menuTransitionTime);
-  for (let i = 0; i < buttonCount; i++) {
-    const angleDeg = angleGap * (i)
-    const angleRad = angleDeg * Math.PI/180
-    let xOffset = Math.sin(angleRad) * buttonOffset;
-    let yOffset = Math.cos(angleRad) * buttonOffset;
-    yOffset = yOffset * -1
+  openMenu() {
+    this.menuToggle.classList.add('active')
+    this.buttonsContainer.classList.add('active')
+    if (this.menuLocked) {
+      return;
+    }
+    this.menuLocked = true;
     setTimeout(() => {
-      buttons[i].style.transform = `translate(${xOffset}px, ${yOffset}px)`;
-      buttons[i].classList.add('active');
-    }, i * (buttonTransitionTime/2));
+      this.menuLocked = false;
+    }, this.menuTransitionTime);
+    for (let i = 0; i < this.buttonCount; i++) {
+      const angleDeg = this.angleGap * (i)
+      const angleRad = angleDeg * Math.PI/180
+      let xOffset = Math.sin(angleRad) * this.buttonOffset;
+      let yOffset = Math.cos(angleRad) * this.buttonOffset;
+      yOffset = yOffset * -1
+      this.buttons[i].xOffset = xOffset
+      this.buttons[i].yOffset = yOffset
+      this.addHoverToButton(this.buttons[i])
+      setTimeout(() => {
+        this.buttons[i].style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        this.buttons[i].classList.add('active');
+      }, i * (this.buttonTransitionTime/2));
+    }
   }
-};
 
-const closeMenu = (_event) => {
-  if (menuLocked) {
-    return
-  }
-  menuToggle.classList.remove('active')
-  menuLocked = true;
-  setTimeout(() => {
-    menuLocked = false;
-  }, menuTransitionTime);
-  buttonsContainer.classList.remove('active')
-  for (let i = (buttonCount - 1); i >= 0; i--) {
+  closeMenu() {
+    if (this.menuLocked) {
+      return
+    }
+    this.menuToggle.classList.remove('active')
+    this.menuLocked = true;
     setTimeout(() => {
-      buttons[i].style.transform = `translate(0px, 0px)`;
-      buttons[i].classList.remove('active');
-    }, ((i - buttonCount) * -1) * (buttonTransitionTime/2));
+      this.menuLocked = false;
+    }, this.menuTransitionTime);
+    this.buttonsContainer.classList.remove('active')
+    for (let i = (this.buttonCount - 1); i >= 0; i--) {
+      setTimeout(() => {
+        this.buttons[i].style.transform = `translate(0px, 0px)`;
+        this.buttons[i].classList.remove('active');
+      }, ((i - this.buttonCount) * -1) * (this.buttonTransitionTime/2));
+    }
   }
-};
+
+  addHoverToButton(button) {
+    button.addEventListener('mouseover', this.hoverStart)
+    button.addEventListener('mouseout', this.hoverEnd)
+  }
+
+  removeHoverFromButton(button) {
+    button.removeEventListener("mouseover", this.hoverStart, false);
+    button.removeEventListener("mouseout", this.hoverEnd, false);
+  }
+
+  hoverStart(_event) {
+    _event.target.style.transform = `translate(${_event.target.xOffset}px, ${_event.target.yOffset}px) scale(1.1)`
+  }
+
+  hoverEnd(_event) {
+    _event.target.style.transform = `translate(${_event.target.xOffset}px, ${_event.target.yOffset}px) scale(1)`
+  }
+
+}
 
 
-menuToggle.addEventListener('mouseover', openMenu);
-menu.addEventListener('mouseleave', closeMenu)
+const radialMenus = document.querySelectorAll('.radial-menu')
+
+radialMenus.forEach((menu) => {
+  new RadialMenu(menu)
+})
