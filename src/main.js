@@ -140,7 +140,7 @@ class RadialMenu {
     this.menuOpen = true;
   }
   closeMenu() {
-    if (this.menuLocked) {
+    if (this.menuLocked || !this.menuOpen) {
       return;
     }
     this.menuToggle.classList.remove('active');
