@@ -7,9 +7,15 @@ class RadialMenu {
     this.buttonsContainer = this.menu.querySelector('.button-container');
     this.menuTransitionTime = parseInt(this.menu.dataset.transitionDuration);
     this.buttonsContainer.style.transition = `transform ${this.menuTransitionTime / 2000}s linear`;
-    this.buttonOffset = (this.menu.offsetWidth / 2) - 40;
+    this.buttonDiameter = (this.menu.offsetWidth / 6);
+    this.menuRadius = this.menu.dataset.radius ? parseInt(this.menu.dataset.radius) : (this.menu.offsetWidth / 2) - this.buttonDiameter - 40;
     this.buttonCount = this.buttons.length
     this.buttonTransitionTime = (this.menuTransitionTime / this.buttonCount).toFixed(2);
+    this.buttons.forEach((button) => {
+      button.style.width = `${this.buttonDiameter}px`
+      button.style.height = `${this.buttonDiameter}px`
+      button.style.transition = `all ${this.buttonTransitionTime/1000}s linear`
+    })
     this.angleGap = 360 / this.buttonCount;
     this.menuLocked = false
     this.menuOpen = false
@@ -34,14 +40,14 @@ class RadialMenu {
     for (let i = 0; i < this.buttonCount; i++) {
       const angleDeg = this.angleGap * (i)
       const angleRad = angleDeg * Math.PI/180
-      let xOffset = Math.sin(angleRad) * this.buttonOffset;
-      let yOffset = Math.cos(angleRad) * this.buttonOffset;
+      let xOffset = Math.sin(angleRad) * this.menuRadius;
+      let yOffset = Math.cos(angleRad) * this.menuRadius;
       yOffset = yOffset * -1
       this.buttons[i].xOffset = xOffset
       this.buttons[i].yOffset = yOffset
       this.addHoverToButton(this.buttons[i])
       setTimeout(() => {
-        this.buttons[i].style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        this.buttons[i].style.transform = `translate(calc(${xOffset}px - 50%), calc(${yOffset}px - 50%))`;
         this.buttons[i].classList.add('active');
       }, i * (this.buttonTransitionTime/2));
     }
@@ -78,11 +84,11 @@ class RadialMenu {
   }
 
   hoverStart(_event) {
-    _event.target.style.transform = `translate(${_event.target.xOffset}px, ${_event.target.yOffset}px) scale(1.1)`
+    _event.target.style.transform = `translate(calc(${_event.target.xOffset}px - 50%), calc(${_event.target.yOffset}px - 50%)) scale(1.1)`
   }
 
   hoverEnd(_event) {
-    _event.target.style.transform = `translate(${_event.target.xOffset}px, ${_event.target.yOffset}px) scale(1)`
+    _event.target.style.transform = `translate(calc(${_event.target.xOffset}px - 50%), calc(${_event.target.yOffset}px - 50%)) scale(1)`
   }
 
 }
