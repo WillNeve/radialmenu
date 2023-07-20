@@ -2,7 +2,7 @@
   box-sizing: border-box; }
 
 body {
-  background: #1B1B1E; }
+  background: white; }
 
 .radial-menu {
   position: relative;
@@ -18,23 +18,24 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: #373F51;
+    background: #1378ec;
     z-index: 2;
     transition: all .3s ease;
-    color: #D8DBE2;
+    color: #ffff;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center; }
     .radial-menu .toggle.active {
-      transform: translate(-50%, -50%) scale(1.1);
-      border: 2px solid #D8DBE2; }
+      transform: translate(-50%, -50%) scale(1.05);
+      border: 1px solid #91a8de; }
   .radial-menu .button {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 50px;
     height: 50px;
-    background: #A9BCD0;
+    background: #91a8de;
     border-radius: 50%;
     transform: rotate(-20deg);
     opacity: 0;
@@ -52,7 +53,6 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-75deg);
-    border: 2px solid green; }
+    transform: translate(-50%, -50%) rotate(-75deg); }
     .radial-menu .button-container.active {
       transform: translate(-50%, -50%) rotate(0deg); }
