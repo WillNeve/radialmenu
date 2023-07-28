@@ -102,16 +102,17 @@ class RadialMenu {
     this.buttonsContainer = this.menu.querySelector('.button-container');
     this.menuTransitionTime = parseInt(this.menu.dataset.transitionDuration);
     this.buttonsContainer.style.transition = `transform ${this.menuTransitionTime / 2000}s linear`;
-    this.buttonDiameter = this.menu.offsetWidth / 6;
     this.menuRadius = this.menu.dataset.radius ? parseInt(this.menu.dataset.radius) : this.menu.offsetWidth / 2 - this.buttonDiameter - 40;
     this.buttonCount = this.buttons.length;
     this.buttonTransitionTime = (this.menuTransitionTime / this.buttonCount).toFixed(2);
+    this.angleGap = 360 / this.buttonCount;
+    this.radGap = this.angleGap * Math.PI / 180;
+    this.buttonDiameter = Math.sin(this.radGap / 2) * this.menuRadius * 2 * 0.8;
     this.buttons.forEach(button => {
       button.style.width = `${this.buttonDiameter}px`;
       button.style.height = `${this.buttonDiameter}px`;
       button.style.transition = `all ${this.buttonTransitionTime / 1000}s linear`;
     });
-    this.angleGap = 360 / this.buttonCount;
     this.menuLocked = false;
     this.menuOpen = false;
     this.openMenu = this.openMenu.bind(this);
