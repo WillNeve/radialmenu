@@ -6,8 +6,9 @@ module.exports = {
   mode: "development",
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html', // Path to your HTML template file
-      filename: path.resolve(__dirname, 'index.html'),    // Output filename in the root directory
+      template: './src/index.html',
+      path: path.resolve(__dirname, "./"),
+      filename: 'index.html'    // Output filename in the root directory
       // other options...
     }),
   ],
@@ -24,6 +25,10 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }

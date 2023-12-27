@@ -1,3 +1,5 @@
+import './stylesheets/style.scss';
+
 class RadialMenu {
   constructor(menu) {
     this.menu = menu
