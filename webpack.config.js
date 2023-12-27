@@ -7,7 +7,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      path: path.resolve(__dirname, "./"),
       filename: 'index.html'    // Output filename in the root directory
       // other options...
     }),
